@@ -3,29 +3,21 @@ package spring.rest.task.repository;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.stereotype.Repository;
-import spring.rest.task.domain.Email;
-
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
-import static java.lang.String.valueOf;
 @Repository
 public class EmailRepository {
     @Value("${email.filename}")
     private String filename;
     private List<SimpleMailMessage> emailList;
 
-
-
     public EmailRepository(){
         this.emailList = new ArrayList<>();
     }
-
-
     public List<SimpleMailMessage> findAll(){
         if(!Files.exists(Paths.get(String.valueOf(filename)))){
             try {
@@ -36,18 +28,10 @@ public class EmailRepository {
         }
         try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(String.valueOf(filename)))) {
             emailList = (List<SimpleMailMessage>) ois.readObject();
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (ClassNotFoundException e) {
+        } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
         }
         return emailList;
-    }
-    public void addNew(SimpleMailMessage simpleMailMessage){
-        emailList.add(simpleMailMessage);
-        save();
     }
     public void deleteAll(){
         emailList.clear();
@@ -60,8 +44,6 @@ public class EmailRepository {
     public void save(){
         try (ObjectOutputStream ous = new ObjectOutputStream(new FileOutputStream(String.valueOf(filename)))) {
             ous.writeObject(emailList);
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -74,5 +56,4 @@ public class EmailRepository {
         emailList.add(simpleMailMessage);
         save();
     }
-
 }
