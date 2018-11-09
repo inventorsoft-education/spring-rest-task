@@ -1,13 +1,14 @@
 package spring.rest.task.services;
-
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.scheduling.TaskScheduler;
 import org.springframework.stereotype.Service;
-import spring.rest.task.EmailConsoleReader;
+import spring.rest.task.SimpleEmail;
 import spring.rest.task.repository.EmailRepository;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
@@ -27,16 +28,23 @@ public class EmailService {
     public List<SimpleMailMessage> getAllEmails()  {
         return repository.findAll();
     }
-    public void addNewEmail(SimpleMailMessage simpleMailMessage){
-        repository.save(simpleMailMessage);
+    public void addNewEmail(SimpleEmail simpleEmail) throws ParseException {
+        SimpleMailMessage sMM = new SimpleMailMessage();
+        DateFormat dateFormat = new SimpleDateFormat("dd.MM.yy HH:mm");
+        Date date = dateFormat.parse(simpleEmail.getDate());
+        sMM.setTo(simpleEmail.getTo());
+        sMM.setSubject(simpleEmail.getSubject());
+        sMM.setText(simpleEmail.getText());
+        sMM.setSentDate(date);
+        repository.save(sMM);
         sendScheduledEmail();
+
     }
     public void updateEmailDate(int id, Date date){
-        List<SimpleMailMessage> simpleMailMessages;
-           simpleMailMessages = getAllEmails();
+        List<SimpleMailMessage> simpleMailMessages = getAllEmails();
            SimpleMailMessage sMM = simpleMailMessages.get(id);
            sMM.setSentDate(date);
-           simpleMailMessages.add(id, sMM);
+           simpleMailMessages.set(id, sMM);
            repository.save(simpleMailMessages);
     }
     public void removePendingEmails(){
