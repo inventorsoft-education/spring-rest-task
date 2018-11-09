@@ -28,8 +28,8 @@ public class EmailController {
         emailService.sendAll();
     }
 
-    @PutMapping(value = "/{id}/change-date", produces = "application/json")
-    public ResponseEntity<String> updateDate(@PathVariable(value="id") int id,@RequestParam(value="date", required=true) @DateTimeFormat(pattern = "dd-MM-yyyy HH:mm") Date newDate){
+    @PutMapping(value = "/{id}/date", produces = "application/json")
+    public ResponseEntity<String> updateDate(@PathVariable(value="id") int id,@RequestParam(value="date") @DateTimeFormat(pattern = "dd-MM-yyyy HH:mm") Date newDate){
         if (id >= processing.getAll().size()) {
             return ResponseEntity.status(404).body("404\nIndex out of range");
         }
