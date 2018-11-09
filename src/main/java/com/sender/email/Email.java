@@ -42,7 +42,8 @@ public class Email implements Serializable {
             return false;
         if(recipient.equals(((Email)obj).recipient)
                 && subject.equals(((Email)obj).subject)
-                && deliveryDate.equals(((Email)obj).deliveryDate)) {
+                && deliveryDate.equals(((Email)obj).deliveryDate)
+                && body.equals(((Email)obj).body)) {
             return true;
         }
         return false;
