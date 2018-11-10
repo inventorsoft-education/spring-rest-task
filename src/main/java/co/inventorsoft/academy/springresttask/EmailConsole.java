@@ -18,11 +18,11 @@ public class EmailConsole {
 	static private final String EMAIL_REGEXP = "^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,6}$";
 	static private final String DATE_FORMAT = "dd.MM.yyyy HH:mm";
 	
-	static private boolean isEmailValid(String emailAddr) {
+	private boolean isEmailValid(String emailAddr) {
 		return Pattern.compile(EMAIL_REGEXP, Pattern.CASE_INSENSITIVE).matcher(emailAddr).find();
 	}
 
-	static private String inputEmail(Scanner scanner) {
+	private String inputEmail(Scanner scanner) {
 		String emailAddr = scanner.nextLine();
 		while ( ! isEmailValid(emailAddr) ) {
 			System.out.println(" Email is invalid. Please input again : ");
@@ -31,7 +31,7 @@ public class EmailConsole {
 		return emailAddr;
 	}	
 
-	static private String inputText (Scanner scanner) { 
+	private String inputText (Scanner scanner) { 
 		StringBuilder input = new StringBuilder("");
 		String line;
 		while (scanner.hasNextLine()) {
@@ -44,7 +44,7 @@ public class EmailConsole {
 		return input.toString();
 	}
 	
-	static private boolean isDateValid(String dateString) {
+	private boolean isDateValid(String dateString) {
 		DateFormat df = new SimpleDateFormat(DATE_FORMAT);
 		df.setLenient(false);
 		try {
@@ -55,7 +55,7 @@ public class EmailConsole {
 		return true;
 	}
 
-	static private Date inputDate(Scanner scanner) {
+	private Date inputDate(Scanner scanner) {
 		String dateString = scanner.nextLine();
 		while ( ! isDateValid(dateString) ) {
 			System.out.printf(" Date is invalid. Please input again in format %s : \n", DATE_FORMAT);
@@ -69,13 +69,13 @@ public class EmailConsole {
 		}
 	}	
 
-	static private boolean isInput(Scanner scanner) {
+	private boolean isInput(Scanner scanner) {
 		System.out.println(" Do you want to input E-mail? (y - yes) : ");
 		String s = scanner.nextLine();
 		return (s.equalsIgnoreCase("y") || s.equalsIgnoreCase("yes"));
 	}
 
-	static public List<SimpleMailMessage> readFromConsole() {
+	public List<SimpleMailMessage> readFromConsole() {
 		List<SimpleMailMessage> emails = new ArrayList<>(); 
 		SimpleMailMessage email;
 		Scanner scanner = new Scanner(System.in);

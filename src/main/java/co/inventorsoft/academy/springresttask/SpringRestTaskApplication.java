@@ -14,9 +14,11 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Scope;
 import org.springframework.mail.SimpleMailMessage;
+import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler;
 
 @SpringBootApplication
+@EnableScheduling
 public class SpringRestTaskApplication implements CommandLineRunner {
 
 	@Autowired
@@ -63,7 +65,6 @@ public class SpringRestTaskApplication implements CommandLineRunner {
 	@Override
 	public void run(String... args) {
 		emailDAO.add( emailConsole.getEmails() );
-		emailDAO.save();
 		emailService.sendFutureEmail();
 	}
 	

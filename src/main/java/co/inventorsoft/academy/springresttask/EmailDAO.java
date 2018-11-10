@@ -1,5 +1,6 @@
 package co.inventorsoft.academy.springresttask;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import org.springframework.mail.SimpleMailMessage;
@@ -13,6 +14,6 @@ public interface EmailDAO {
 	void delete(SimpleMailMessage email);
 	void delete(int id);
 	void clear();
-	void save();
+	void update(int id, LocalDateTime date);
 
 }

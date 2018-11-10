@@ -7,11 +7,16 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.util.Date;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
+import javax.annotation.PreDestroy;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.SimpleMailMessage;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Repository;
 
 @Repository
@@ -67,12 +72,16 @@ public class EmailFile implements EmailDAO {
 	@Override
 	public void clear() {
 		emails.clear();
-		deleteEmailFile();
 	}
-
+	
 	@Override
-	public synchronized void save() {
-		deleteEmailFile();
+	public void update(int id, LocalDateTime date) {
+    	emails.get(id).setSentDate( Date.from(date.atZone(ZoneId.systemDefault()).toInstant()) );
+	}
+	
+	@PreDestroy
+	@Scheduled(cron = "0 0/15 * * * ?")
+	private void save() {
 		try(FileOutputStream fos = new FileOutputStream(file); 
 			ObjectOutputStream oos = new ObjectOutputStream(fos)) {
 					oos.writeObject(emails);
@@ -82,7 +91,7 @@ public class EmailFile implements EmailDAO {
 		}
 	}
 
-	private synchronized void deleteEmailFile() {
+	private void deleteEmailFile() {
 		try {
 			Files.deleteIfExists(Paths.get(file));
 		} catch (IOException e) {

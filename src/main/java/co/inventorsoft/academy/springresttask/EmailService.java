@@ -72,7 +72,6 @@ public class EmailService {
 						emailSender.send(email);
 						futures.remove(email);
 						emailDAO.delete(email);
-						emailDAO.save();
 					} catch(Exception e) {
 						log.warn(" E-mail  To:{}  Subject:{}  Date:{} ",email.getTo(),email.getSubject(),email.getSentDate());
 						log.error(e.getMessage());
@@ -80,7 +79,7 @@ public class EmailService {
 				},
 				email.getSentDate() );
 	}
-	
+
 	private void loggingSchedulerState() {
 		log.info(" State  {}:{} ",scheduler.getThreadNamePrefix(),scheduler.getScheduledThreadPoolExecutor()); 
 	}
