@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController()
-@RequestMapping("/messages")
+@RequestMapping("/messages/")
 public class MailSenderController {
 
     private JsonRepo jsonRepo;
@@ -18,33 +18,32 @@ public class MailSenderController {
         this.jsonRepo = jsonRepo;
     }
 
-    @GetMapping()
+    @GetMapping
     public List<Message> getMessages() {
         List<Message> sender = jsonRepo.loadFromJsonToList();
         return sender;
     }
 
-    @GetMapping("/{id}")
+    @PostMapping
+    public void addMessage(@RequestBody Message message) {
+        jsonRepo.addMessage(message);
+    }
+
+    @GetMapping("{id}")
     public Message getMessage(@PathVariable int id) {
         Message message = jsonRepo.findById((long) id);
         return message;
     }
 
-
-    @PutMapping("/{id}")
-    public void updateFutureDate(@PathVariable long id,
+    @PutMapping("{id}")
+    public void updateFutureDate(@PathVariable("id") long id,
                                  @RequestParam long date) {
         jsonRepo.changeDateById(id, date);
     }
 
-    @DeleteMapping("/removing/{id}")
+    @DeleteMapping("{id}")
     public void deleteMessage(@PathVariable long id) {
         jsonRepo.deleteById(id);
-    }
-
-    @PostMapping("/creation")
-    public void addMessage(@RequestBody Message message) {
-        jsonRepo.addMessage(message);
     }
 
 }
