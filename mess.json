@@ -235,21 +235,5 @@
     "message": "asdadsa",
     "futureDate": 2323232323,
     "status": "SENT"
-  },
-  {
-    "id": 32,
-    "subject": "ssssssssssssssssssss",
-    "emailTo": "fedia.ch@gmail.com",
-    "message": "asdadsa",
-    "futureDate": 2323232323,
-    "status": "SENT"
-  },
-  {
-    "id": 12,
-    "subject": "dawwws",
-    "emailTo": "fedia.ch@gmail.com",
-    "message": "asdadssd",
-    "futureDate": 23,
-    "status": "SENT"
   }
 ]
