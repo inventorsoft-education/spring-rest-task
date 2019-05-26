@@ -21,9 +21,6 @@ public class TaskSchedule {
         if(!emailController.isAllSended()){
             emailDeliver.run();
         }
-
-
-        //this.taskScheduler.schedule(() -> run(), this.actualMsg.getSentDate().compareTo(new Date()) <= 0 ? new Date() : this.actualMsg.getSentDate());
     }
 
 
