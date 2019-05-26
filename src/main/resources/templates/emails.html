@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css" integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay" crossorigin="anonymous">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
+    <meta charset="UTF-8">
+    <title>Emails</title>
+</head>
+<body>
+<div th:insert="layouts/main :: menu"></div>
+
+<table class="table">
+    <thead class="thead-dark">
+    <tr>
+        <th scope="col">Email Recipient</th>
+        <th scope="col">Email Subject</th>
+        <th scope="col">Email Body</th>
+        <th scope="col">Email Delivery Date</th>
+        <th scope="col">Email Status</th>
+        <th scope="col">Edit</th>
+        <th scope="col">Delete</th>
+    </tr>
+    </thead>
+    <tbody th:each="email : ${emails}">
+    <tr>
+        <td th:text="${email.emailRecipient}"></td>
+        <td th:text="${email.emailSubject}"></td>
+        <td th:text="${email.emailBody}"></td>
+        <td th:text="${email.deliveryDate}"></td>
+        <td th:text="${email.statusDelivery}"></td>
+        <td><i th:attr="id=${email.id}" class="far fa-edit edit"></i></td>
+        <td><i th:attr="id='d'+${email.id}" class="far fa-trash-alt delete"></i></td>
+    </tr>
+    </tbody>
+</table>
+
+<div id="myModalBox" class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <form th:action="@{/update}" method="post">
+                <input type="text" name="id" id="id" hidden>
+            <div class="modal-header">
+                <h5 class="modal-title">Edit Email</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-1"></div>
+                    <div class="col-md-4">
+                        <label for="emailSubject">Email Subject</label>
+                        <input type="text" name="emailSubject" id="emailSubject">
+                    </div>
+                    <div class="col-md-1"></div>
+                    <div class="col-md-4">
+                        <label for="emailBody">Email Body</label>
+                        <input type="text" name="emailBody" id="emailBody">
+                    </div>
+                </div>
+                <br>
+                <div class="row">
+                    <div class="col-md-1"></div>
+                    <div class="col-md-4">
+                        <label for="emailRecipient">Email recipient</label>
+                        <input type="text" name="emailRecipient" id="emailRecipient">
+                    </div>
+                    <div class="col-md-1"></div>
+                    <div class="col-md-4">
+                        <label for="deliveryDate">Delivery Date</label>
+                        <input type="text" name="deliveryDate" id="deliveryDate">
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="submit" class="btn btn-primary">Save changes</button>
+            </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(".edit").on('click', (function() {
+        $.ajax({
+            type: 'GET',
+            url: '/email',
+            data: {
+                emailId : this.id
+            },
+            success: function(email){
+                $("#id").val(email['id']);
+                $("#emailRecipient").val(email['emailRecipient']);
+                $("#emailSubject").val(email['emailSubject']);
+                $("#emailBody").val(email['emailBody']);
+                $("#deliveryDate").val(email['deliveryDate']);
+                $("#myModalBox").modal('show');
+            }
+        });
+
+    }));
+
+    $(".delete").on('click', (function() {
+        id = this.id.substr(1);
+        $.ajax({
+            type: 'GET',
+            url: '/delete',
+            data: {
+                emailId : id
+            },
+            success: function(msg){
+               alert(msg)
+                location.reload()
+            }
+        });
+
+    }));
+</script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+
+
+</body>
+</html>

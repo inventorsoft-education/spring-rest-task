@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <meta charset="UTF-8">
+    <title>Create</title>
+</head>
+<body>
+<div th:insert="layouts/main :: menu"></div>
+
+<h1 align="center">Create Email</h1>
+
+<div class="row">
+    <div class="col-md-2"></div>
+    <div class="col-md-6">
+        <form th:action="@{/saveEmail}" th:object="${emailItem}" method="post">
+            <div class="form-group">
+                <label for="emailRecipient">Email recipient</label>
+                <input type="email" name="emailRecipient" class="form-control" id="emailRecipient" aria-describedby="emailHelp" placeholder="Enter email" th:field="*{emailRecipient}">
+               <small class="alert alert-danger" role="alert" th:if="${#fields.hasErrors('emailRecipient')}" th:errors="*{emailRecipient}"></small>
+            </div>
+            <div class="form-group">
+                <label for="emailSubject">Email Subject</label>
+                <input type="text" name="emailSubject" class="form-control" id="emailSubject" placeholder="Enter subject" th:field="*{emailSubject}">
+                <small class="alert alert-danger" role="alert" th:if="${#fields.hasErrors('emailSubject')}" th:errors="*{emailSubject}"></small>
+            </div>
+            <div class="form-group">
+                <label for="emailBody">Email Body</label>
+                <textarea class="form-control" name="emailBody" id="emailBody" rows="3" placeholder="Enter body" th:field="*{emailBody}"></textarea>
+                <small class="alert alert-danger" role="alert" th:if="${#fields.hasErrors('emailBody')}" th:errors="*{emailBody}"></small>
+            </div>
+
+            <div class="form-group">
+                <label for="deliveryDate">Delivery Date</label>
+                <input class="form-control" type="text" id="deliveryDate" name="deliveryDate" placeholder="Enter date in format 'dd-MM-yyyy HH:mm'" th:field="*{deliveryDate}">
+                <small class="alert alert-danger" role="alert" th:if="${#fields.hasErrors('deliveryDate')}" th:errors="*{deliveryDate}"></small>
+            </div>
+
+            <button type="submit" class="btn btn-primary">Save Email</button>
+        </form>
+    </div>
+</div>
+
+</body>
+</html>
