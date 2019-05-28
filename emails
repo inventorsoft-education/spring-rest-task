@@ -1,0 +1,51 @@
+[
+  {
+    "recipientName": "Dima",
+    "emailSubject": "e\u003d jgsgjei gjs-gj sei gjesgj",
+    "emailBody": "0 hw0 dhaw0 dh0wd ha0wd ",
+    "deliveryDate": "Oct 12, 2019, 12:00:00 PM",
+    "isSent": false
+  },
+  {
+    "recipientName": "alexanderpeterburg21@gmail.com",
+    "emailSubject": "test",
+    "emailBody": "test",
+    "deliveryDate": "Dec 12, 2109, 12:00:00 PM",
+    "isSent": true
+  },
+  {
+    "recipientName": "alexanderpeterburg21@gmail.com",
+    "emailSubject": "test",
+    "emailBody": "test",
+    "deliveryDate": "Oct 12, 2019, 12:00:00 PM",
+    "isSent": true
+  },
+  {
+    "recipientName": "alexanderpeterburg21@gmail.com",
+    "emailSubject": "test",
+    "emailBody": "test",
+    "deliveryDate": "Jun 12, 2019, 12:10:00 PM",
+    "isSent": true
+  },
+  {
+    "recipientName": "f a;fw",
+    "emailSubject": "f wmafwma flw fm",
+    "emailBody": " fwa[n aw[ naw",
+    "deliveryDate": "Oct 12, 2019, 12:00:00 PM",
+    "isSent": false
+  },
+  {
+    "recipientName": "alexanderpeterburg21@gmail.com",
+    "emailSubject": "test",
+    "emailBody": "test",
+    "deliveryDate": "Oct 12, 2019, 12:00:00 PM",
+    "isSent": false
+  },
+  {
+    "recipientName": "alexanderpeterburg21@gmail.com",
+    "emailSubject": "user interface test",
+    "emailBody": "some dta",
+    "deliveryDate": "Oct 12, 2019, 12:00:00 PM",
+    "isSent": false
+  }
+]
