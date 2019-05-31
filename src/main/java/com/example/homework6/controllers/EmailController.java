@@ -71,7 +71,7 @@ public class EmailController {
         return email;
     }
 
-    @PostMapping(value = "/update")
+    @PutMapping(value = "/update")
     private ModelAndView updateEmail(@RequestParam Integer id, String emailRecipient, String emailSubject, String emailBody, String deliveryDate){
         //TODO validation
         Optional<EmailItem> e =  emailRepo.findById(id);
@@ -90,7 +90,7 @@ public class EmailController {
         }
     }
 
-    @GetMapping(value = "/delete")
+    @DeleteMapping(value = "/delete")
     private @ResponseBody String deleteEmail(Integer emailId) {
         String msg = "";
         Optional<EmailItem> e =  emailRepo.findById(emailId);
@@ -103,11 +103,6 @@ public class EmailController {
         return msg;
     }
 
-    @GetMapping(value = "/send")
-    private  String send() {
-        taskSchedule.sendSchedule();
-        return "index";
-    }
 
     public ArrayList<EmailItem> getActive(){
        return findAllActive(emailRepo.findAll());

@@ -39,6 +39,7 @@
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <form th:action="@{/update}" method="post">
+                <input type="hidden" name="_method" value="put" />
                 <input type="text" name="id" id="id" hidden>
             <div class="modal-header">
                 <h5 class="modal-title">Edit Email</h5>
@@ -105,7 +106,7 @@
     $(".delete").on('click', (function() {
         id = this.id.substr(1);
         $.ajax({
-            type: 'GET',
+            type: 'DELETE',
             url: '/delete',
             data: {
                 emailId : id
