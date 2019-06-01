@@ -10,7 +10,7 @@ import javax.annotation.PreDestroy;
 import java.io.*;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
-
+import java.util.Date;
 
 
 @Repository
@@ -62,6 +62,18 @@ public class WorkWithJsonFile {
 
     }
 
+    //deleteById
+    public boolean deleteEmailById(int id){
+        if (id<=emails.size() && id>=0){
+            emails.remove(id);
+            updateList(emails);
+            return true;
+        }
+        else{
+            return false;
+        }
+    }
+
     @PostConstruct
     public void init(){
         emails=loadFromJsonEmailsList();
@@ -74,5 +86,15 @@ public class WorkWithJsonFile {
 
     public ArrayList<Email> getEmails() {
         return emails;
+    }
+
+    public boolean updateDateById(int id, Date date){
+        if (id<=emails.size() && id>=0){
+            emails.get(id).setDeliveryDate(date);
+            updateList(emails);
+            return true;
+        } else {
+            return false;
+        }
     }
 }

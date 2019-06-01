@@ -1,14 +1,15 @@
 package com.example.demo;
 
+import org.apache.catalina.connector.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.stream.Collectors;
 
-import static org.springframework.web.bind.annotation.RequestMethod.DELETE;
 import static org.springframework.web.bind.annotation.RequestMethod.GET;
 import static org.springframework.web.bind.annotation.RequestMethod.POST;
 
@@ -35,36 +36,22 @@ public class EmailController {
         workWithJsonFile.saveEmailToJson(newEmail);
     }
 
-    @DeleteMapping(value = "/delete")
-    private boolean deleteOne(@RequestBody Email newEmail){
-        ArrayList<Email> emails=workWithJsonFile.loadFromJsonEmailsList();
-        if (emails.contains(newEmail)){
-            emails.remove(newEmail);
-            workWithJsonFile.updateList(emails);
-            return true;
-        }else {
-            return false;
-        }
+    @DeleteMapping("/{id}")
+    private ResponseEntity deleteOne(@PathVariable int id){
+         if (workWithJsonFile.deleteEmailById(id)){
+             return ResponseEntity.ok().build();
+         }
+         else return ResponseEntity.badRequest().build();
     }
 
-    @PutMapping(value="/updateDate")
-    private boolean updateDate(@RequestBody Email newEmail,
-                               @RequestParam Date date){
+    @PutMapping(value="/newDateForOneEmail")
+    private  ResponseEntity updateDeliveryDateForOneEmail(@RequestParam int  id,
+                                                          @RequestParam Date date){
 
-        ArrayList<Email> emails=workWithJsonFile.loadFromJsonEmailsList();
-        if (emails.contains(newEmail)){
-           for (Email counter :emails){
-               if (counter.equals(newEmail)){
-                   counter.setDeliveryDate(date);
-               }
-           }
-            workWithJsonFile.updateList(emails);
-            return true;
-        }else {
-            return false;
-        }
-
-
+       if(workWithJsonFile.updateDateById(id, date)) {
+           return ResponseEntity.ok().build();
+       }
+       else  return ResponseEntity.badRequest().build();
     }
 
 
