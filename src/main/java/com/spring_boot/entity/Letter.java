@@ -1,6 +1,6 @@
 package com.spring_boot.entity;
 
-import com.home_work.spring_boot.annotations.Reachable;
+import com.spring_boot.annotations.Reachable;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.validator.constraints.Length;

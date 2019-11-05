@@ -1,7 +1,7 @@
 package com.spring_boot.controllers;
 
-import com.home_work.spring_boot.entity.Letter;
-import com.home_work.spring_boot.services.MailService;
+import com.spring_boot.entity.Letter;
+import com.spring_boot.services.MailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -20,7 +20,7 @@ public class MailController {
         this.mailService = mailService;
     }
 
-    @RequestMapping(value = "saving-mail", method = RequestMethod.POST)
+    @RequestMapping(method = RequestMethod.POST)
     public ResponseEntity<String> saveMail(@RequestBody Letter letter){
         mailService.saveMail(letter);
         return ResponseEntity.ok("Mail saved");

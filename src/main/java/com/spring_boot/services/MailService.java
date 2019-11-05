@@ -1,8 +1,9 @@
 package com.spring_boot.services;
 
-import com.home_work.spring_boot.entity.Letter;
-import com.home_work.spring_boot.repository.MailDao;
+import com.spring_boot.entity.Letter;
+import com.spring_boot.repository.MailDao;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -18,8 +19,12 @@ public class MailService {
 
     private JavaMailSender javaMailSender;
     private MailDao mailDao;
-    private static final String MAILS_TO_SEND = "fileNameToSend";
-    private static final String SENT_MAILS = "fileNameOfSent";
+
+    @Value("${file.fileNameToSend}")
+    private String mailsToSend;
+
+    @Value("${file.fileNameOfSent}")
+    private String sentMails;
 
 
     @Autowired
@@ -28,33 +33,33 @@ public class MailService {
         this.javaMailSender = javaMailSender;
     }
 
-    @Scheduled(cron = "*/5 * * * * ?")
+    @Scheduled(cron = "* */1 * * * *")
     public void sendMail() {
-        LinkedList<Letter> letters = mailDao.getMails(MAILS_TO_SEND);
-        for (Letter lettertoSend : letters){
-            if (lettertoSend.getDeliveryTime().compareTo(LocalDateTime.now())<1){
+        LinkedList<Letter> letters = mailDao.getMails(mailsToSend);
+        for (Letter letterToSend : letters){
+            if (letterToSend.getDeliveryTime().compareTo(LocalDateTime.now())<1){
                 SimpleMailMessage msg = new SimpleMailMessage();
-                msg.setTo(lettertoSend.getRecipient());
-                msg.setSubject(lettertoSend.getSubject());
-                msg.setText(lettertoSend.getBody());
-                msg.setSentDate(Timestamp.valueOf(lettertoSend.getDeliveryTime()));
+                msg.setTo(letterToSend.getRecipient());
+                msg.setSubject(letterToSend.getSubject());
+                msg.setText(letterToSend.getBody());
+                msg.setSentDate(Timestamp.valueOf(letterToSend.getDeliveryTime()));
                 javaMailSender.send(msg);
-                mailDao.removeSentMail(lettertoSend);
+                mailDao.removeSentMail(letterToSend);
             }
         }
 
     }
 
     public void saveMail(Letter letter) {
-        mailDao.saveMail(letter, MAILS_TO_SEND);
+        mailDao.saveMail(letter, mailsToSend);
     }
 
     public List<Letter> getMailsToSend() {
-        return mailDao.getMails(MAILS_TO_SEND);
+        return mailDao.getMails(mailsToSend);
     }
 
     public List<Letter> getSentMails() {
-        return mailDao.getMails(SENT_MAILS);
+        return mailDao.getMails(sentMails);
     }
 
 }
