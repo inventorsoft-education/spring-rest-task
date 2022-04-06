@@ -8,10 +8,9 @@ import org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler;
 public class MyConfiguration {
 
     @Bean
-    public ThreadPoolTaskScheduler getTask(){
+    public ThreadPoolTaskScheduler getTask() {
         ThreadPoolTaskScheduler taskScheduler = new ThreadPoolTaskScheduler();
-        taskScheduler.setPoolSize(3);
-        taskScheduler.setThreadNamePrefix("Завдання");
+        taskScheduler.setPoolSize(3);taskScheduler.setThreadNamePrefix("Task");
         return taskScheduler;
     }
 

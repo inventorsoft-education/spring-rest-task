@@ -2,6 +2,7 @@ package com.inventor.email.settings;
 
 import com.inventor.email.Email;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
 
@@ -14,7 +15,7 @@ public interface EmailSettings {
 
     void loadOutOfFile();
 
-    void changeDate(int index, Date newDate);
+    void changeDate(int index, LocalDateTime newDate);
 
     void changeCondition(Email email);
 

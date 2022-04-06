@@ -1,8 +1,12 @@
 package com.inventor.email;
 
 import org.springframework.stereotype.Component;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Scanner;
@@ -11,66 +15,67 @@ import java.util.regex.Pattern;
 
 @Component
 public class InputConsole {
+    private static final String REGEX = "^[a-zA-Z0-9_+&*-]+(?:\\.[a-zA-Z0-9_+&*-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,7}$";
+    Scanner scanner = new Scanner(System.in);
+
     private boolean isInput() {
-        System.out.print("Чи бажаєте ви ввести пошту? (y/n): ");
-        char answer = new Scanner(System.in).nextLine().charAt(0);
-        if(answer == 'y' || answer == 'Y'){
-            return true;
-        }
-        else {
-            return false;
-        }
+        System.out.print("Would you like to enter email? (y/n): ");
+        String ignore = "Y";
+        String answer = scanner.nextLine();
+
+        return answer.equalsIgnoreCase(ignore);
     }
 
-    private static final String regex = "^[a-zA-Z0-9_+&*-]+(?:\\.[a-zA-Z0-9_+&*-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,7}$";
+
     private String enterEmail() {
         Scanner scanner = new Scanner(System.in);
         boolean loop = true;
         String address = null;
         do {
-            System.out.print("Введіть пошту: ");
+            System.out.print("Enter email: ");
             String a = scanner.nextLine();
-            Pattern pattern = Pattern.compile(regex);
+            Pattern pattern = Pattern.compile(REGEX);
             Matcher matcher = pattern.matcher(a);
-            if (matcher.matches()){
+            if (matcher.matches()) {
                 address = a;
                 loop = false;
+            } else {
+                System.out.println("Email " + a + " is not valid, enter email again");
             }
-            else {
-                System.out.println("Пошта " + a + " не є можливою, введіть пошту заново");
-            }
-        }while (loop);
+        } while (loop);
         return address;
     }
 
-    private Date inputDate() {
+    private LocalDateTime inputDate() {
         Scanner scanner = new Scanner(System.in);
-        String inputDate;
-        Date date = null;
-        boolean okey = false;
-        while (!okey) {
-            System.out.println("Напишіть дату відправлення повідомлення. Формат: (дд.мм.рррр гг:хв)");
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm");
+        LocalDateTime date = null;
+        boolean loop = true;
+        do {
+            System.out.print("Enter date (Form dd.MM.yyyy HH:mm): ");
             try {
-                inputDate = scanner.nextLine();
-                date = new SimpleDateFormat("dd.MM.yyyy HH:mm").parse(inputDate);
-                okey = true;
-            } catch (ParseException e)  {
-                System.out.println("Неправильний формат дати! Формат: (дд.мм.рррр гг:хв)");
+                String now = scanner.nextLine();
+                LocalDateTime formatDateTime = LocalDateTime.parse(now, formatter);
+                date = formatDateTime;
+                loop = false;
+            } catch (DateTimeParseException e) {
+                System.out.println("Form of date must be (dd.MM.yyyy HH:mm)");
             }
-        }
+
+        }while (loop);
         return date;
     }
 
     private String inputText() {
         String input = "";
-        Scanner probil = new Scanner(System.in);
-        String vidstup;
-        while (probil.hasNextLine()) {
-            vidstup = probil.nextLine();
-            if (vidstup.isEmpty()) {
+        Scanner space = new Scanner(System.in);
+        String space2;
+        while (space.hasNextLine()) {
+            space2 = space.nextLine();
+            if (space2.isEmpty()) {
                 break;
             }
-            input += vidstup + "\n";
+            input += space2 + "\n";
         }
         return input;
     }
@@ -79,14 +84,15 @@ public class InputConsole {
         ArrayList<Email> emails = new ArrayList<>();
         while (isInput()) {
             Email email = new Email();
-            email.setOderzhuvach(enterEmail());
-            email.setDataOtrymannya(inputDate());
-            System.out.println("Введіть ТЕМУ вашого повідомлення: ");
-            email.setTema(inputText());
-            System.out.println("Введіть ТЕКСТ вашого повідомлення: ");
-            email.setTekst(inputText());
+            email.setReceiver(enterEmail());
+            email.setDateOfReceiving(inputDate());
+            System.out.println("Enter subject of your email: ");
+            email.setSubject(inputText());
+            System.out.println("Enter text of your email: ");
+            email.setText(inputText());
             emails.add(email);
         }
         return emails;
     }
+
 }

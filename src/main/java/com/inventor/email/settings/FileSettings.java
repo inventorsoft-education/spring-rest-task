@@ -2,7 +2,9 @@ package com.inventor.email.settings;
 
 import com.inventor.email.Email;
 import org.springframework.stereotype.Repository;
+
 import java.io.*;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -22,7 +24,7 @@ public class FileSettings implements EmailSettings {
     @Override
     public List<Email> getUnsent() {
         return emails.stream()
-                .filter(e -> !e.getNadislano())
+                .filter(e -> !e.getSend())
                 .collect(Collectors.toList());
     }
 
@@ -33,20 +35,20 @@ public class FileSettings implements EmailSettings {
     }
 
     @Override
-    public void changeDate(int index, Date newDate) {
-        emails.get(index).setDataOtrymannya(newDate);
+    public void changeDate(int index, LocalDateTime newDate) {
+        emails.get(index).setDateOfReceiving(newDate);
         loadInFile();
     }
 
     @Override
     public void changeCondition(Email email) {
-        emails.get(emails.indexOf(email)).setNadislano(true);
+        emails.get(emails.indexOf(email)).setSend(true);
         loadInFile();
     }
 
     FileSettings() {
         File file = new File(FILE_PATH);
-        if(file.exists()) {
+        if (file.exists()) {
             loadOutOfFile();
         } else {
             emails = new ArrayList<>();
@@ -67,9 +69,9 @@ public class FileSettings implements EmailSettings {
             objectStream.writeObject(emails);
             fileStream.close();
             objectStream.close();
-        } catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
-            System.out.println("Помилка написання у файл: "  + e);
+            System.out.println("Failed to write file: " + e);
         }
     }
 
@@ -79,13 +81,13 @@ public class FileSettings implements EmailSettings {
             FileInputStream fileStream = new FileInputStream(FILE_PATH);
             ObjectInputStream objectStream = new ObjectInputStream(fileStream);
 
-            List<Email> data = (List<Email>)objectStream.readObject();
+            List<Email> data = (List<Email>) objectStream.readObject();
             this.emails = data;
             fileStream.close();
             objectStream.close();
         } catch (Exception e) {
             e.printStackTrace();
-            System.out.println("Помилка читання з файлу: " + e);
+            System.out.println("Failed to read from file: " + e);
             this.emails = new ArrayList<>();
         }
     }
