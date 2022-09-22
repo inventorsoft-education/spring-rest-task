@@ -3,7 +3,7 @@ Repository for spring rest hometask
 
 # Hometask
 
-Your task is to create REST api for email delivery project from **spring-boot-task**.
+Your task is to create REST api for email delivery project.
 Requirements are the following:
 
 1) Create endpoint for retrieving list of pending email deliveries;
