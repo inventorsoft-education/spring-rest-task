@@ -1,9 +1,10 @@
-package mail.lemeshev.mail_server.model;
+package mail.lemeshev.server.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
 
 @Data
 @AllArgsConstructor
@@ -14,5 +15,5 @@ public class Message {
     private String to;
     private String subject;
     private String text;
-    private String date;
+    private LocalDateTime date;
 }

@@ -1,15 +1,16 @@
-package mail.lemeshev.mail_server.service;
+package mail.lemeshev.server.service;
 
-import mail.lemeshev.mail_server.model.Message;
-import mail.lemeshev.mail_server.repository.MessageRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.AllArgsConstructor;
+import mail.lemeshev.server.model.Message;
+import mail.lemeshev.server.repository.MessageRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
+@AllArgsConstructor
 public class MessageService {
-    @Autowired
+
     private MessageRepository repository;
 
     public Message saveMessage(Message message) {
@@ -20,13 +21,12 @@ public class MessageService {
         return repository.getAllMessages();
     }
 
-    public Message getMessageById(int id) {
+    public Message getMessageById(Integer id) {
         return repository.findById(id);
     }
 
-    public String deleteMessage(int id) {
+    public void deleteMessage(Integer id) {
         repository.delete(id);
-        return "Message removed !! " + id;
     }
 
     public Message updateMessage(Integer id, Message message) {
