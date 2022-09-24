@@ -6,6 +6,7 @@ import org.springframework.stereotype.Repository;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import javax.persistence.EntityNotFoundException;
 
 @Repository
@@ -44,9 +45,7 @@ public class MessageRepository {
     }
 
     public Message update(Integer id, Message message) {
-        if (findById(id) != null) {
-            list.set(id, message);
-            return message;
-        } else throw new EntityNotFoundException("Message with id: " + id + " not found!");
+        Optional.of(findById(id)).ifPresent(i -> list.set(id, message));
+        return message;
     }
 }
