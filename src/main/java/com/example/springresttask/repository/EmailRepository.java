@@ -23,7 +23,7 @@ public interface EmailRepository extends JpaRepository<Email, Long> {
     @Modifying
     @Transactional
     @Query("delete from Email e where e.isSent =false  and  e.id=:id")
-    void deleteEmail(Long id);
+    void deletePendingEmail(Long id);
 
 
 }

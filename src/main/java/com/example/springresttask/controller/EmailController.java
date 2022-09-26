@@ -7,7 +7,6 @@ import com.example.springresttask.service.EmailService;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
-import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
@@ -33,7 +32,7 @@ public class EmailController {
 
 
     @GetMapping
-    public List<EmailDto> getAllPendingEmailDeliveries(){
+    public List<EmailDto> getAllPendingEmailDeliveries() {
         return emailService.pendingEmailDeliveries().stream()
                 .map(emailMapper::toDto)
                 .collect(Collectors.toList());
@@ -41,21 +40,20 @@ public class EmailController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public Email addNewEmailDelivery(@RequestBody @Valid EmailDto emailDto){
+    public Email addNewEmailDelivery(@RequestBody  EmailDto emailDto) {
         return emailService.createEmailDelivery(emailMapper.toEntity(emailDto));
     }
+
     @PatchMapping("/{id}")
     public String updateDeliveryDate(@PathVariable Long id,
-                                      @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime deliveryDate){
+                                      @RequestBody @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime deliveryDate) {
         return emailService.updateDeliveryDate(id,  deliveryDate) + "Time update";
 
     }
+
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void removePendingEmail(@PathVariable Long id){
-        emailService.remove(id);
+    public void removePendingEmail(@PathVariable Long id) {
+        emailService.removePendingEmail(id);
     }
-
-
-
 }

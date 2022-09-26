@@ -11,28 +11,25 @@ import org.springframework.stereotype.Service;
 @Service
 @RequiredArgsConstructor
 public class EmailService {
+
     private final EmailRepository emailRepository;
 
-    public List<Email> pendingEmailDeliveries(){
+    public List<Email> pendingEmailDeliveries() {
         return emailRepository.findAllByPendingEmail();
 
     }
 
     @Transactional
-    public Email createEmailDelivery(Email email){
+    public Email createEmailDelivery(Email email) {
        return emailRepository.save(email);
     }
+
     @Transactional
     public Integer updateDeliveryDate(Long id, LocalDateTime deliveryDate){
         return emailRepository.updateEmailBody(id,  deliveryDate);
     }
 
-    public void remove(Long id){
-          emailRepository.deleteEmail(id);
+    public void removePendingEmail(Long id) {
+          emailRepository.deletePendingEmail(id);
     }
-
-
-
-
-
 }

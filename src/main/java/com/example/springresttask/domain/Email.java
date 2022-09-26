@@ -27,21 +27,19 @@ public class Email {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @javax.validation.constraints.Email
-    @NotNull
-    @Size(min = 2, max = 100, message = "Name should be 2-100 characters long")
+
     @Column(name = "recipient_name")
     private String recipientName;
-    @NotNull
+
     @Column(name = "email_subject")
     private String emailSubject;
-    @NotNull
+
     @Column(name = "email_body")
     private String emailBody;
+
     @Column(name = "delivery_date")
     private LocalDateTime deliveryDate;
-    //todo:check as best
-    @NotNull
+
     @Column(name = "is_sent")
     private Boolean isSent = false;
 
