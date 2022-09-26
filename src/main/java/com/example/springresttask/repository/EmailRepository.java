@@ -13,7 +13,7 @@ import org.springframework.stereotype.Repository;
 public interface EmailRepository extends JpaRepository<Email, Long> {
 
     @Query("select e from Email e where e.isSent = false")
-    List<Email>findAllByPendingEmail();
+    List<Email> findAllByPendingEmail();
 
     @Modifying
     @Transactional

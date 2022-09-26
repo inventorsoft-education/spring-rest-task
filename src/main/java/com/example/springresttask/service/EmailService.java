@@ -16,20 +16,19 @@ public class EmailService {
 
     public List<Email> pendingEmailDeliveries() {
         return emailRepository.findAllByPendingEmail();
-
     }
 
     @Transactional
     public Email createEmailDelivery(Email email) {
-       return emailRepository.save(email);
+        return emailRepository.save(email);
     }
 
     @Transactional
-    public Integer updateDeliveryDate(Long id, LocalDateTime deliveryDate){
-        return emailRepository.updateEmailBody(id,  deliveryDate);
+    public Integer updateDeliveryDate(Long id, LocalDateTime deliveryDate) {
+        return emailRepository.updateEmailBody(id, deliveryDate);
     }
 
     public void removePendingEmail(Long id) {
-          emailRepository.deletePendingEmail(id);
+        emailRepository.deletePendingEmail(id);
     }
 }

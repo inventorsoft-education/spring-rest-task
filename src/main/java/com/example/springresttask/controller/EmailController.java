@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -40,14 +39,14 @@ public class EmailController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public Email addNewEmailDelivery(@RequestBody  EmailDto emailDto) {
+    public Email addNewEmailDelivery(@RequestBody EmailDto emailDto) {
         return emailService.createEmailDelivery(emailMapper.toEntity(emailDto));
     }
 
     @PatchMapping("/{id}")
     public String updateDeliveryDate(@PathVariable Long id,
-                                      @RequestBody @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime deliveryDate) {
-        return emailService.updateDeliveryDate(id,  deliveryDate) + "Time update";
+                                     @RequestBody @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime deliveryDate) {
+        return emailService.updateDeliveryDate(id, deliveryDate) + "Time update";
 
     }
 
