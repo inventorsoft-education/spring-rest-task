@@ -1,5 +1,6 @@
 package com.example.springresttask.domain;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -36,7 +37,7 @@ public class Email {
     private String emailBody;
 
     @Column(name = "delivery_date")
-    private LocalDateTime deliveryDate;
+    private LocalDateTime deliveryDate ;
 
     @Column(name = "is_sent")
     private Boolean isSent = false;

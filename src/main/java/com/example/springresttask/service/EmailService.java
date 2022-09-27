@@ -2,8 +2,8 @@ package com.example.springresttask.service;
 
 import com.example.springresttask.domain.Email;
 import com.example.springresttask.repository.EmailRepository;
-import java.time.LocalDateTime;
 import java.util.List;
+import javax.persistence.EntityNotFoundException;
 import javax.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -24,11 +24,22 @@ public class EmailService {
     }
 
     @Transactional
-    public Integer updateDeliveryDate(Long id, LocalDateTime deliveryDate) {
-        return emailRepository.updateEmailBody(id, deliveryDate);
+    public Email updateDeliveryDate(Email email) {
+        if (email.getIsSent()) {
+            throw new RuntimeException("you cannot change the date " +
+                    "because the letter has already been sen");
+        }
+        return emailRepository.save(email);
+    }
+
+    public Email findEmailById(Long id) {
+        return emailRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Email not found!"));
     }
 
     public void removePendingEmail(Long id) {
         emailRepository.deletePendingEmail(id);
     }
+
+
 }

@@ -17,11 +17,6 @@ public interface EmailRepository extends JpaRepository<Email, Long> {
 
     @Modifying
     @Transactional
-    @Query("update Email e set e.deliveryDate =:deliveryDate where e.id=:id and e.isSent =false")
-    Integer updateEmailBody(Long id, LocalDateTime deliveryDate);
-
-    @Modifying
-    @Transactional
     @Query("delete from Email e where e.isSent =false  and  e.id=:id")
     void deletePendingEmail(Long id);
 
