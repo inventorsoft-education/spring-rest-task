@@ -26,8 +26,8 @@ public class EmailService {
     @Transactional
     public Email updateDeliveryDate(Email email) {
         if (email.getIsSent()) {
-            throw new RuntimeException("you cannot change the date " +
-                    "because the letter has already been sen");
+            throw new RuntimeException("you cannot change the date because the letter" +
+                    " has already been sen");
         }
         return emailRepository.save(email);
     }
