@@ -1,4 +1,4 @@
-package com.messenger.api.dto;
+package com.messenger.api.dto.request;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -18,9 +18,6 @@ import static lombok.AccessLevel.PRIVATE;
 @AllArgsConstructor
 @Builder
 public class EmailRequest {
-  @Email
-  @Size(max = 255)
-  String from;
   @Email
   @Size(max = 255)
   String to;

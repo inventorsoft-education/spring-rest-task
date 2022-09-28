@@ -1,11 +1,12 @@
 package com.messenger.api.dto;
 
+import com.messenger.api.dto.request.EmailRequest;
+
 import java.time.LocalDateTime;
 
 public class EmailRequestFixture {
   public static EmailRequest createEmailRequest(){
     return EmailRequest.builder()
-        .from("user1@gmail.com")
         .to("user2@gmail.com")
         .cc("user3@gmail.com")
         .subject("test")
@@ -15,8 +16,7 @@ public class EmailRequestFixture {
   }
   public static EmailRequest createEmailRequestWithInvalidEmail(){
     return EmailRequest.builder()
-        .from("joke.com")
-        .to("user2@gmail.com")
+        .to("joke.com")
         .cc("user3@gmail.com")
         .subject("test")
         .body("We have to test all endpoints")

@@ -1,4 +1,4 @@
-package com.messenger.api.dto;
+package com.messenger.api.dto.response;
 
 import static org.springframework.util.Assert.notNull;
 

@@ -1,8 +1,10 @@
 package com.messenger.service;
 
 import com.messenger.api.dto.EmailRequestFixture;
-import com.messenger.api.dto.EmailRequest;
+import com.messenger.api.dto.request.EmailRequest;
 import com.messenger.domain.Email;
+import com.messenger.domain.User;
+import com.messenger.domain.UserFixture;
 import com.messenger.repository.EmailRepository;
 import com.messenger.service.impl.EmailServiceImpl;
 import com.messenger.domain.EmailFixture;
@@ -48,7 +50,8 @@ public class EmailServiceTest {
   @Test
   void create() {
     EmailRequest request = EmailRequestFixture.createEmailRequest();
-    emailService.create(request);
+    User user = UserFixture.createUser();
+    emailService.create(request, user.getEmail());
     verify(emailRepository).save(emailArgumentCaptor.capture());
     Email actualEmail = emailArgumentCaptor.getValue();
     assertThatEmailMappedCorrectly(request, actualEmail);
@@ -85,7 +88,6 @@ public class EmailServiceTest {
   }
 
   private void assertThatEmailMappedCorrectly(EmailRequest request, Email actualEmail) {
-    assertThat(actualEmail.getFrom()).isEqualTo(request.getFrom());
     assertThat(actualEmail.getTo()).isEqualTo(request.getTo());
     assertThat(actualEmail.getCc()).isEqualTo(request.getCc());
     assertThat(actualEmail.getSubject()).isEqualTo(request.getSubject());

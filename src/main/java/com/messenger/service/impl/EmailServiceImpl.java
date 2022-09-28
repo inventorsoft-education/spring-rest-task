@@ -1,6 +1,6 @@
 package com.messenger.service.impl;
 
-import com.messenger.api.dto.EmailRequest;
+import com.messenger.api.dto.request.EmailRequest;
 import com.messenger.domain.Email;
 import com.messenger.repository.EmailRepository;
 import com.messenger.service.EmailService;
@@ -32,10 +32,11 @@ public class EmailServiceImpl implements EmailService {
   }
 
   @Override
-  public Email create(EmailRequest request) {
-    return save(Email.create(request));
+  public Email create(EmailRequest request, String userEmail) {
+    return save(Email.create(request, userEmail));
   }
-  private Email save(Email email){
+
+  private Email save(Email email) {
     return emailRepository.save(email);
   }
 

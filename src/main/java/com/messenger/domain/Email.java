@@ -1,6 +1,6 @@
 package com.messenger.domain;
 
-import com.messenger.api.dto.EmailRequest;
+import com.messenger.api.dto.request.EmailRequest;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -55,9 +55,9 @@ public class Email {
   @UpdateTimestamp
   LocalDateTime deliveryDate;
 
-  public static Email create(EmailRequest request) {
+  public static Email create(EmailRequest request, String userEmail) {
     return Email.builder()
-        .from(request.getFrom())
+        .from(userEmail)
         .to(request.getTo())
         .cc(request.getCc())
         .subject(request.getSubject())
@@ -67,7 +67,6 @@ public class Email {
   }
 
   public void update(EmailRequest request) {
-    from = request.getFrom();
     to = request.getTo();
     cc = request.getCc();
     subject = request.getSubject();

@@ -1,4 +1,4 @@
-package com.messenger.api.dto;
+package com.messenger.api.dto.response;
 
 import com.messenger.domain.Email;
 import lombok.AccessLevel;

@@ -1,6 +1,6 @@
 package com.messenger.service;
 
-import com.messenger.api.dto.EmailRequest;
+import com.messenger.api.dto.request.EmailRequest;
 import com.messenger.domain.Email;
 
 import java.util.List;
@@ -12,7 +12,7 @@ public interface EmailService {
 
   Optional<Email> findById(Long id);
 
-  Email create(EmailRequest request);
+  Email create(EmailRequest request, String userEmail);
 
   Email update(Email email, EmailRequest request);
 
