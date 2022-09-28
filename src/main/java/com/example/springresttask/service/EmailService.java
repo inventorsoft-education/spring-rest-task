@@ -3,7 +3,6 @@ package com.example.springresttask.service;
 import com.example.springresttask.domain.Email;
 import com.example.springresttask.repository.EmailRepository;
 import java.util.List;
-import javax.persistence.EntityNotFoundException;
 import javax.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -25,16 +24,15 @@ public class EmailService {
 
     @Transactional
     public Email updateDeliveryDate(Email email) {
+        if (!emailRepository.existsById(email.getId())) {
+            throw new RuntimeException("id not found");
+        }
+
         if (email.getIsSent()) {
             throw new RuntimeException("you cannot change the date because the letter" +
                     " has already been sen");
         }
         return emailRepository.save(email);
-    }
-
-    public Email findEmailById(Long id) {
-        return emailRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("Email not found!"));
     }
 
     public void removePendingEmail(Long id) {

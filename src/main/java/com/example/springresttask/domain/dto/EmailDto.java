@@ -22,7 +22,7 @@ public class EmailDto {
     @NotBlank
     private String emailBody;
 
-    @NotBlank
+    @NotNull
     private LocalDateTime deliveryDate;
 
     @NotNull

@@ -4,19 +4,13 @@ import com.example.springresttask.domain.Email;
 import com.example.springresttask.domain.dto.EmailDto;
 import com.example.springresttask.domain.mapper.EmailMapper;
 import com.example.springresttask.service.EmailService;
-import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
-import javax.persistence.EntityNotFoundException;
 import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -49,9 +43,9 @@ public class EmailController {
     }
 
     @PutMapping("/{id}")
-    public EmailDto updateDeliveryDate(@PathVariable Long id, @RequestBody EmailDto emailDto) {
-        Email email = emailService.findEmailById(id);
-        emailMapper.update(emailDto, email);
+    public EmailDto updateDeliveryDate(@PathVariable Long id, @Valid @RequestBody EmailDto emailDto) {
+        Email email = emailMapper.toEntity(emailDto);
+        email.setId(id);
         return emailMapper.toDto(emailService.updateDeliveryDate(email));
     }
 
