@@ -35,6 +35,7 @@ public class EmailService {
             throw new RuntimeException("you cannot change the date because the letter" +
                     " has already been sen");
         }
+        
         emailMapper.update(emailDto,email1);
         return emailMapper.toDto(emailRepository.save(email1));
     }
