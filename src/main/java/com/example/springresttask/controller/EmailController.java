@@ -44,9 +44,7 @@ public class EmailController {
 
     @PutMapping("/{id}")
     public EmailDto updateDeliveryDate(@PathVariable Long id, @Valid @RequestBody EmailDto emailDto) {
-        Email email = emailMapper.toEntity(emailDto);
-        email.setId(id);
-        return emailMapper.toDto(emailService.updateDeliveryDate(email));
+        return emailService.updateDeliveryDate(id,emailDto);
     }
 
     @DeleteMapping("/{id}")
