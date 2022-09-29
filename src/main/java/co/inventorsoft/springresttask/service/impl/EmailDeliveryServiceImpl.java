@@ -3,11 +3,13 @@ package co.inventorsoft.springresttask.service.impl;
 import co.inventorsoft.springresttask.controller.dto.EmailDto;
 import co.inventorsoft.springresttask.service.EmailDeliveryService;
 import co.inventorsoft.springresttask.service.mapper.EmailMapper;
+import co.inventorsoft.springresttask.service.model.Email;
 import co.inventorsoft.springresttask.service.repository.EmailRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.sql.Timestamp;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -35,14 +37,22 @@ public class EmailDeliveryServiceImpl implements EmailDeliveryService {
     @Override
     public EmailDto createEmail(EmailDto emailDto) {
         log.info("Email with id {} was created", emailDto.getId());
+
+        java.util.Date dt = new java.util.Date();
+        java.text.SimpleDateFormat sdf =
+                new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        String currentTime = sdf.format(dt);
+        emailDto.setDate(Timestamp.valueOf(currentTime));
+
         return emailMapper.mapModelToDto(emailRepository.createEmail(emailMapper.mapDtoToModel(emailDto)));
     }
 
     @Override
     public EmailDto updateEmail(int id, EmailDto emailDto) {
-        emailDto.setId(id);
+        Email savedEmail = emailRepository.getEmail(id);
+        savedEmail.setDate(emailDto.getDate());
         log.info("Email with id {} was updated", emailDto.getId());
-        return emailMapper.mapModelToDto(emailRepository.updateEmail(id, emailMapper.mapDtoToModel(emailDto)));
+        return emailMapper.mapModelToDto(emailRepository.updateEmail(id, savedEmail));
     }
 
     @Override
