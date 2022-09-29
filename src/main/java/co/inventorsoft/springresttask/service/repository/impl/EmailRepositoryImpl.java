@@ -13,9 +13,9 @@ public class EmailRepositoryImpl implements EmailRepository {
     private final List<Email> emailList = new ArrayList<>();
 
     @Override
-    public Email getEmail(int id) {
+    public Email getEmail(Integer id) {
         return emailList.stream()
-                .filter(email -> email.getId() == (id))
+                .filter(email -> email.getId().equals(id))
                 .findFirst()
                 .orElseThrow(() -> new RuntimeException("Email is not found!"));
     }
@@ -32,19 +32,18 @@ public class EmailRepositoryImpl implements EmailRepository {
     }
 
     @Override
-    public Email updateEmail(int id, Email email) {
-        boolean isDeleted = emailList.removeIf(u -> u.getId() == (id));
-        if (isDeleted) {
-            emailList.add(email);
-        } else {
-            throw new RuntimeException("Email is not found!");
-        }
-        return email;
+    public Email updateEmail(Integer id, Email email) {
+        Email savedEmail = emailList.stream()
+                .filter(currentEmail -> currentEmail.getId().equals(id))
+                .findFirst()
+                .orElseThrow(() -> new RuntimeException("Email is not found!"));
+        savedEmail.setDate(email.getDate());
+        return savedEmail;
     }
 
     @Override
-    public void deleteEmail(int id) {
-        emailList.removeIf(email -> email.getId() == (id));
+    public void deleteEmail(Integer id) {
+        emailList.removeIf(email -> email.getId().equals(id));
     }
 
 }

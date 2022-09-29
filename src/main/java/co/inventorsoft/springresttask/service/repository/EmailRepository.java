@@ -6,14 +6,14 @@ import java.util.List;
 
 public interface EmailRepository {
 
-    Email getEmail(int id);
+    Email getEmail(Integer id);
 
     List<Email> listEmails();
 
     Email createEmail(Email email);
 
-    Email updateEmail(int id, Email email);
+    Email updateEmail(Integer id, Email email);
 
-    void deleteEmail(int id);
+    void deleteEmail(Integer id);
 
 }

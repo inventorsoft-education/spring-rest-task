@@ -9,7 +9,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
-import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -22,7 +22,7 @@ public class EmailDeliveryServiceImpl implements EmailDeliveryService {
     private final EmailRepository emailRepository;
 
     @Override
-    public EmailDto getEmail(int id) {
+    public EmailDto getEmail(Integer id) {
         return emailMapper.mapModelToDto(emailRepository.getEmail(id));
     }
 
@@ -37,18 +37,13 @@ public class EmailDeliveryServiceImpl implements EmailDeliveryService {
     @Override
     public EmailDto createEmail(EmailDto emailDto) {
         log.info("Email with id {} was created", emailDto.getId());
-
-        java.util.Date dt = new java.util.Date();
-        java.text.SimpleDateFormat sdf =
-                new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        String currentTime = sdf.format(dt);
-        emailDto.setDate(Timestamp.valueOf(currentTime));
-
-        return emailMapper.mapModelToDto(emailRepository.createEmail(emailMapper.mapDtoToModel(emailDto)));
+        emailDto.setDate(LocalDateTime.now());
+        Email email = emailRepository.createEmail(emailMapper.mapDtoToModel(emailDto));
+        return emailMapper.mapModelToDto(email);
     }
 
     @Override
-    public EmailDto updateEmail(int id, EmailDto emailDto) {
+    public EmailDto updateEmail(Integer id, EmailDto emailDto) {
         Email savedEmail = emailRepository.getEmail(id);
         savedEmail.setDate(emailDto.getDate());
         log.info("Email with id {} was updated", emailDto.getId());
@@ -56,7 +51,7 @@ public class EmailDeliveryServiceImpl implements EmailDeliveryService {
     }
 
     @Override
-    public void deleteEmail(int id) {
+    public void deleteEmail(Integer id) {
         emailRepository.deleteEmail(id);
         log.info("Email with id {} was deleted", id);
     }

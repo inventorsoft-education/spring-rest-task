@@ -6,14 +6,14 @@ import java.util.List;
 
 public interface EmailDeliveryService {
 
-    EmailDto getEmail(int id);
+    EmailDto getEmail(Integer id);
 
     List<EmailDto> listEmails();
 
     EmailDto createEmail(EmailDto emailDto);
 
-    EmailDto updateEmail(int id, EmailDto emailDto);
+    EmailDto updateEmail(Integer id, EmailDto emailDto);
 
-    void deleteEmail(int id);
+    void deleteEmail(Integer id);
 
 }

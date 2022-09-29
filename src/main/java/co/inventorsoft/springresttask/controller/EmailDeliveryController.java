@@ -18,16 +18,14 @@ public class EmailDeliveryController {
 
     private final EmailDeliveryService emailDeliveryService;
 
-    @ResponseStatus(HttpStatus.OK)
     @GetMapping
     public List<EmailDto> getAllEmails() {
         log.info("getAllEmails");
         return emailDeliveryService.listEmails();
     }
 
-    @ResponseStatus(HttpStatus.OK)
     @GetMapping("/{id}")
-    public EmailDto getEmailById(@PathVariable int id) {
+    public EmailDto getEmailById(@PathVariable Integer id) {
         log.info("getEmail by id {}", id);
         return emailDeliveryService.getEmail(id);
     }
@@ -39,16 +37,15 @@ public class EmailDeliveryController {
         return emailDeliveryService.createEmail(emailDto);
     }
 
-    @ResponseStatus(HttpStatus.OK)
     @PutMapping("/{id}")
-    public EmailDto updateEmail(@PathVariable int id, @RequestBody EmailDto emailDto) {
+    public EmailDto updateEmail(@PathVariable Integer id, @RequestBody EmailDto emailDto) {
         log.info("updateEmail by id {}", id);
         return emailDeliveryService.updateEmail(id, emailDto);
     }
 
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @DeleteMapping("/{id}")
-    public void deleteUser(@PathVariable int id) {
+    public void deleteUser(@PathVariable Integer id) {
         log.info("deleteEmail by id {}", id);
         emailDeliveryService.deleteEmail(id);
     }
