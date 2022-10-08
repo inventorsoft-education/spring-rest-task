@@ -5,12 +5,10 @@ import lombok.experimental.FieldDefaults;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
-
 import javax.validation.Valid;
 import java.util.List;
 
 import static lombok.AccessLevel.PRIVATE;
-
 
 @RestController
 @RequestMapping("/api/emails")
@@ -40,6 +38,7 @@ public class Controller {
     public Email getEmailById(@PathVariable Long id) {
         return emailService.getEmailById(id);
     }
+
     @PutMapping("/{id}")
     public Email updateEmail( @PathVariable Long id ,@Valid @RequestBody Email email) {
         return emailService.updateEmail(id, email);

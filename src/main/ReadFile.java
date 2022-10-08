@@ -7,6 +7,8 @@ import com.opencsv.bean.StatefulBeanToCsvBuilder;
 import com.opencsv.exceptions.CsvDataTypeMismatchException;
 import com.opencsv.exceptions.CsvException;
 import com.opencsv.exceptions.CsvRequiredFieldEmptyException;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import java.io.FileReader;
@@ -18,10 +20,14 @@ import java.util.LinkedList;
 import java.util.List;
 
 @Component
+@Slf4j
 public class ReadFile {
-    public LinkedList<Email> readBackup(String path) {
+    @Value("${backup.path}")
+    String backupPath;
+
+    public LinkedList<Email> readBackup() {
         LinkedList<Email> emails = new LinkedList<>();
-        try (FileReader fileReader = new FileReader(path)) {
+        try (FileReader fileReader = new FileReader(backupPath)) {
             CSVReader csvReader = new CSVReaderBuilder(fileReader).build();
             List<String[]> strings = csvReader.readAll();
             for (String[] arr : strings) {
@@ -30,7 +36,7 @@ public class ReadFile {
                 emails.add(email);
             }
         } catch (IOException | CsvException e) {
-            e.printStackTrace();
+            log.error(e.getMessage());
         }
         return emails;
     }
@@ -40,7 +46,7 @@ public class ReadFile {
             StatefulBeanToCsv statefulBeanToCsv = new StatefulBeanToCsvBuilder(writer).build();
             statefulBeanToCsv.write(emails);
         } catch (IOException | CsvDataTypeMismatchException | CsvRequiredFieldEmptyException e) {
-            e.printStackTrace();
+            log.error(e.getMessage());
         }
     }
 }
